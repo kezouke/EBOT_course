@@ -1,0 +1,5 @@
+/start - Start command
+/stopsending - Stop sending
+/setcurrency - Set currency
+/currencylist - List of currencies
+/view - View currency value
