@@ -76,8 +76,13 @@ command_start = ["stopsending"]
 @ebot.message_handler(commands=command_start)
 @ebot.edited_message_handler(commands=command_start)
 def stop(message):
-    DATA.pop(message.from_user.id)
-    ebot.reply_to(message, "Вы отписались от рассылки. Отправьте мне /start и я снова буду присылать сообщения")
+    id = message.from_user.id
+    if id in DATA:
+        DATA.pop(id)
+        store(DATA_PATH, DATA)
+        ebot.reply_to(message, "Вы отписались от рассылки. Отправьте мне /start и я снова буду присылать сообщения")
+    else:
+        ebot.reply_to(message, "Вы уже отписались от рассылки")
 
 
 # Send list of all possible currencies, currency denomination and currency code
