@@ -28,13 +28,16 @@ DATE = fetch(DATE_PATH)
 
 # Сurrency search by specified filters
 def view(charcode, date_req):
+    if date_req is None:
+            today = date.today()
+            date_req = today.strftime("%d/%m/%Y")
+    
+    print(date_req)
+    
     if date_req in DATE:
         content = DATE[date_req]
     else:
-        if date_req is None:
-            today = date.today()
-            date_req = today.strftime("%d/%m/%Y")
-
+        
         url = r"http://www.cbr.ru/scripts/XML_daily.asp?"
         response = re.get(url, params={"date_req": date_req})
         content = response.text
@@ -155,7 +158,7 @@ def sendler(data_reg=None):
         ebot.send_message(id, f"Доброе утро! На сегодня курс по {charcode} составляет {view(charcode, data_reg)} руб.")
 
 
-schedule.every().day.at("10:30").do(sendler)
+schedule.every().day.at("8:30").do(sendler)
 
 
 def send():
