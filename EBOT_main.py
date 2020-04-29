@@ -27,7 +27,7 @@ DATE = fetch(DATE_PATH)
 
 
 # Сurrency search by specified filters
-def view(charcode, date_req)
+def view(charcode, date_req):
 
     if date_req in DATE:
         content = DATE[date_req]
