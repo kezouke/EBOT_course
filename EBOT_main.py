@@ -46,7 +46,7 @@ def view(charcode, date_req):
             return currency.parent.value.text
 
 
-ebot = telebot.TeleBot("your token")
+ebot = telebot.TeleBot("1245576989:AAHF9AnQ_lHQ0LaGnTrYUSmpA29aQGGJLN8")
 
 
 # Send the description of the bot to the user
