@@ -20,7 +20,7 @@ def fetch(filename):
 
 def date_today():
     today = date.today()
-    return date_req = today.strftime("%d/%m/%Y")
+    return today.strftime("%d/%m/%Y")
 
 FOLDER = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(FOLDER, "users", "users.json")
