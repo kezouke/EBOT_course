@@ -139,7 +139,7 @@ def data_message(message):
         charcode = DATA[id]
         date = message.text
         if view(charcode, date):
-            ebot.reply_to(message, f'Курс на {date} по {charcode} состовляет {view(charcode, date)} руб.')
+            ebot.reply_to(message, f'Курс на {date} по {charcode} составляет {view(charcode, date)} руб.')
         else:
             ebot.reply_to(message, f"К сожаллению у нас нет информации для {charcode} на {date}")
     else:
