@@ -159,7 +159,7 @@ def sendler(data_reg=None):
         ebot.send_message(id, f"Доброе утро! На сегодня курс по {charcode} составляет {view(charcode, data_reg)} руб.")
 
 
-schedule.every().day.at("8:30").do(sendler)
+schedule.every().day.at("10:30").do(sendler)
 
 
 def send():
