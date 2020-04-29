@@ -27,13 +27,8 @@ DATE = fetch(DATE_PATH)
 
 
 # Сurrency search by specified filters
-def view(charcode, date_req):
-    if date_req is None:
-            today = date.today()
-            date_req = today.strftime("%d/%m/%Y")
-    
-    print(date_req)
-    
+def view(charcode, date_req)
+
     if date_req in DATE:
         content = DATE[date_req]
     else:
@@ -152,7 +147,13 @@ def data_message(message):
 
 
 def sendler(data_reg=None):
+    if date_req is None:
+        today = date.today()
+        date_req = today.strftime("%d/%m/%Y")
+
+    print(date_req)
     print('WE SEND')
+    
     for id in DATA:
         charcode = DATA[id]
         ebot.send_message(id, f"Доброе утро! На сегодня курс по {charcode} составляет {view(charcode, data_reg)} руб.")
