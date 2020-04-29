@@ -18,6 +18,9 @@ def fetch(filename):
     with open(filename, 'rb') as f:
         return pickle.load(f)
 
+def date_today():
+    today = date.today()
+    return date_req = today.strftime("%d/%m/%Y")
 
 FOLDER = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH = os.path.join(FOLDER, "users", "users.json")
@@ -29,10 +32,11 @@ DATE = fetch(DATE_PATH)
 # Сurrency search by specified filters
 def view(charcode, date_req):
     print(date_req)
+    
     if date_req in DATE:
         content = DATE[date_req]
+    
     else:
-        
         url = r"http://www.cbr.ru/scripts/XML_daily.asp?"
         response = re.get(url, params={"date_req": date_req})
         content = response.text
@@ -109,7 +113,7 @@ def view_message(message):
     id = message.from_user.id
     if id in DATA:
         charcode = DATA[id]
-        reply_string = f'Текущий курс по {charcode} составляет {view(charcode, None)} руб.'
+        reply_string = f'Текущий курс по {charcode} составляет {view(charcode, date_today())} руб.'
         ebot.reply_to(message, reply_string)
     else:
         ebot.reply_to(message, "Вы должны написать /start, для того, чтобы использовать эту функци")
@@ -148,9 +152,7 @@ def data_message(message):
 
 def sendler(data_reg=None):
     if date_req is None:
-        today = date.today()
-        date_req = today.strftime("%d/%m/%Y")
-
+        date_req = date_today()
     print(date_req)
     print('WE SEND')
     
