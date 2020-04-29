@@ -116,7 +116,7 @@ def view_message(message):
         reply_string = f'Текущий курс по {charcode} составляет {view(charcode, date_today())} руб.'
         ebot.reply_to(message, reply_string)
     else:
-        ebot.reply_to(message, "Вы должны написать /start, для того, чтобы использовать эту функци")
+        ebot.reply_to(message, "Вы должны написать /start, для того, чтобы использовать эту функцию")
 
 
 # Recognize the currency code
@@ -147,21 +147,16 @@ def data_message(message):
         else:
             ebot.reply_to(message, f"К сожаллению у нас нет информации для {charcode} на {date}")
     else:
-        ebot.reply_to(message, "Вы должны написать /start, для того, чтобы использовать эту функци")
+        ebot.reply_to(message, "Вы должны написать /start, для того, чтобы использовать эту функцию")
 
 
-def sendler(data_reg=None):
-    if date_req is None:
-        date_req = date_today()
-    print(date_req)
-    print('WE SEND')
-    
+def sendler():
     for id in DATA:
         charcode = DATA[id]
-        ebot.send_message(id, f"Доброе утро! На сегодня курс по {charcode} составляет {view(charcode, data_reg)} руб.")
+        ebot.send_message(id, f"Доброе утро! На сегодня курс по {charcode} составляет {view(charcode, date_today())} руб.")
 
 
-schedule.every().day.at("10:30").do(sendler)
+schedule.every().day.at("10:30").do(sendler) 
 
 
 def send():
