@@ -50,7 +50,7 @@ def view(charcode, date_req):
             return currency.parent.value.text
 
 
-ebot = telebot.TeleBot("your token")
+ebot = telebot.TeleBot("1245576989:AAHF9AnQ_lHQ0LaGnTrYUSmpA29aQGGJLN8")
 
 
 # Send the description of the bot to the user
@@ -125,7 +125,7 @@ reg_charcode = r"\b\w{3}\b"
 @ebot.edited_message_handler(regexp=reg_charcode)
 def currency_code_message(message):
     charcode = message.text
-    if view(charcode, None):
+    if view(charcode, date_today()):
         ebot.reply_to(message, f'Вы выбрали {charcode}.')
         DATA[message.from_user.id] = charcode
         store(DATA_PATH, DATA)
