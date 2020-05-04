@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from threading import Thread
-from datetime import date
+from datetime import date, timedelta
 import requests as re
 import pickle
 import telebot
@@ -150,10 +150,17 @@ def data_message(message):
         ebot.reply_to(message, "Вы должны написать /start, для того, чтобы использовать эту функцию")
 
 
+
 def sendler():
+	today = date_today()
+    yesterday = (date.today() - timedelta(days=1)).strftime("%d/%m/%Y")
+        
     for id in DATA:
         charcode = DATA[id]
-        ebot.send_message(id, f"Доброе утро! На сегодня курс по {charcode} составляет {view(charcode, date_today())} руб.")
+        if view(charcode, today) != view(charcode, yesterday): #if moex change course 
+        	send = f"Доброе утро! Центральный банк Российской Федерации установил с {today} новые курсы иностранных валют." 
+        	send += f" На сегодня курс по {charcode} составляет {view(charcode, date_today())} руб."
+        	ebot.send_message(id, send)
 
 
 schedule.every().day.at("10:30").do(sendler) 
