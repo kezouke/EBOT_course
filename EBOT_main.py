@@ -152,7 +152,7 @@ def data_message(message):
 
 
 def sendler():
-	today = date_today()
+    today = date_today()
     yesterday = (date.today() - timedelta(days=1)).strftime("%d/%m/%Y")
         
     for id in DATA:
