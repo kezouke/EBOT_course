@@ -50,7 +50,7 @@ def view(charcode, date_req):
             return currency.parent.value.text
 
 
-ebot = telebot.TeleBot("TOKEN")
+ebot = telebot.TeleBot("1245576989:AAHF9AnQ_lHQ0LaGnTrYUSmpA29aQGGJLN8")
 
 
 # Send the description of the bot to the user
@@ -158,8 +158,17 @@ def sendler():
     for id in DATA:
         charcode = DATA[id]
         if view(charcode, today) != view(charcode, yesterday): #if moex change course 
-        	send = f"Доброе утро! Центральный банк Российской Федерации установил с {today} новые курсы иностранных валют." 
-        	send += f" На сегодня курс по {charcode} составляет {view(charcode, date_today())} руб."
+        	
+            start_string = f"Доброе утро! Центральный банк Российской Федерации установил с {today} новые курсы иностранных валют." 
+        	usd_string = f" На сегодня курс по USD составляет {view('USD', date_today())} руб."
+            eur_string = f" Курс по EUR - {view('EUR', date_today())} руб."
+            
+            if charcode == 'USD' or charcode == 'EUR':
+                end_string = ""
+            else:
+                end_string = f" Выбранный вами курс по {charcode} составил {view(charcode, date_today())} руб."
+
+            send = start_string + usd_string + eur_string + end_string
         	ebot.send_message(id, send)
 
 
