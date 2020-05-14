@@ -158,7 +158,7 @@ def sendler():
     for id in DATA:
         charcode = DATA[id]
         if view(charcode, today) != view(charcode, yesterday): #if moex change course 
-        	
+            
             start_string = f"Доброе утро! Центральный банк Российской Федерации установил с {today} новые курсы иностранных валют."
             usd_string = f" На сегодня курс по USD составляет {view('USD', date_today())} руб."
             eur_string = f" Курс по EUR - {view('EUR', date_today())} руб."
@@ -169,7 +169,7 @@ def sendler():
                 end_string = f" Выбранный вами курс по {charcode} составил {view(charcode, date_today())} руб."
 
             send = start_string + usd_string + eur_string + end_string
-        	ebot.send_message(id, send)
+            ebot.send_message(id, send)
 
 
 schedule.every().day.at("10:30").do(sendler) 
