@@ -159,9 +159,9 @@ def sendler():
         charcode = DATA[id]
         if view(charcode, today) != view(charcode, yesterday): #if moex change course 
             
-            start_string = f"Доброе утро! Центральный банк Российской Федерации установил с {today} новые курсы иностранных валют."
-            usd_string = f" На сегодня курс по USD составляет {view('USD', date_today())} руб."
-            eur_string = f" Курс по EUR - {view('EUR', date_today())} руб."
+            start_string = f"Доброе утро! Центральный банк Российской Федерации установил с {today} новые курсы иностранных валют. \n"
+            usd_string = f" На сегодня курс по USD составляет {view('USD', date_today())} руб. \n"
+            eur_string = f" Курс по EUR - {view('EUR', date_today())} руб. \n"
             
             if charcode == 'USD' or charcode == 'EUR':
                 end_string = ""
