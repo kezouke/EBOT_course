@@ -176,11 +176,11 @@ def sendler():
             ebot.send_message(id, send)
 
             if today_course < yesterday_course:
-                with open(os.path.join(FOLDER, "photos", "stonks.jpg"), "rb") as stonks_photo:
+                with open(os.path.join(FOLDER, "stonks.jpg"), "rb") as stonks_photo:
                     ebot.send_photo(id, stonks_photo)
                 
             elif today_course > yesterday_course:
-                with open(os.path.join(FOLDER, "photos", "notstonks.jpg"), "rb") as notstonks_photo:
+                with open(os.path.join(FOLDER, "notstonks.jpg"), "rb") as notstonks_photo:
                     ebot.send_photo(id, notstonks_photo)
 
 
