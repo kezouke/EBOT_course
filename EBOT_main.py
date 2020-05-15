@@ -151,13 +151,17 @@ def data_message(message):
 
 
 
+
 def sendler():
     today = date_today()
     yesterday = (date.today() - timedelta(days=1)).strftime("%d/%m/%Y")
-        
+    
     for id in DATA:
-        charcode = DATA[id]
-        if view(charcode, today) != view(charcode, yesterday): #if moex change course 
+        charcode = DATA[id]        
+        today_course = view(charcode, today) 
+        yesterday_course = view(charcode, yesterday)
+
+        if  today_course != yesterday_course: #if moex change course 
             
             start_string = f"Доброе утро! Центральный банк Российской Федерации установил с {today} новые курсы иностранных валют. \n"
             usd_string = f" На сегодня курс по USD составляет {view('USD', date_today())} руб. \n"
@@ -166,10 +170,19 @@ def sendler():
             if charcode == 'USD' or charcode == 'EUR':
                 end_string = ""
             else:
-                end_string = f" Выбранный вами курс по {charcode} составил {view(charcode, date_today())} руб."
+                end_string = f" Выбранный вами курс по {charcode} составил {today_course} руб."
 
             send = start_string + usd_string + eur_string + end_string
             ebot.send_message(id, send)
+
+            if today_course < yesterday_course:
+                with open(os.path.join(FOLDER, "photos", "stonks.jpg"), "rb") as stonks_photo:
+                    ebot.send_photo(id, stonks_photo)
+                
+            elif today_course > yesterday_course:
+                with open(os.path.join(FOLDER, "photos", "notstonks.jpg"), "rb") as notstonks_photo:
+                    ebot.send_photo(id, notstonks_photo)
+
 
 
 schedule.every().day.at("10:30").do(sendler) 
