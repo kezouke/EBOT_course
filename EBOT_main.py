@@ -158,8 +158,8 @@ def sendler():
     
     for id in DATA:
         charcode = DATA[id]        
-        today_course = view(charcode, today) 
-        yesterday_course = view(charcode, yesterday)
+        today_course = float(view(charcode, today).replace(',', '.'))
+        yesterday_course = float(view(charcode, yesterday).replace(',', '.'))
 
         if  today_course != yesterday_course: #if moex change course 
             
@@ -175,11 +175,11 @@ def sendler():
             send = start_string + usd_string + eur_string + end_string
             ebot.send_message(id, send)
 
-            if float(today_course.replace(',', '.')) < float(yesterday_course.replace(',', '.')):
+            if today_course < yesterday_course:
                 with open(os.path.join(FOLDER, "stonks.jpg"), "rb") as stonks_photo:
                     ebot.send_photo(id, stonks_photo)
                 
-            elif float(today_course.replace(',', '.')) > float(yesterday_course.replace(',', '.')):
+            elif today_course > yesterday_course:
                 with open(os.path.join(FOLDER, "notstonks.jpg"), "rb") as notstonks_photo:
                     ebot.send_photo(id, notstonks_photo)
 
