@@ -50,7 +50,7 @@ def view(charcode, date_req):
             return currency.parent.value.text
 
 
-ebot = telebot.TeleBot("TOKEN")
+ebot = telebot.TeleBot("1245576989:AAHF9AnQ_lHQ0LaGnTrYUSmpA29aQGGJLN8")
 
 
 # Send the description of the bot to the user
@@ -175,11 +175,11 @@ def sendler():
             send = start_string + usd_string + eur_string + end_string
             ebot.send_message(id, send)
 
-            if today_course < yesterday_course:
+            if float(today_course.replace(',', '.')) < float(yesterday_course.replace(',', '.')):
                 with open(os.path.join(FOLDER, "stonks.jpg"), "rb") as stonks_photo:
                     ebot.send_photo(id, stonks_photo)
                 
-            elif today_course > yesterday_course:
+            elif float(today_course.replace(',', '.')) > float(yesterday_course.replace(',', '.')):
                 with open(os.path.join(FOLDER, "notstonks.jpg"), "rb") as notstonks_photo:
                     ebot.send_photo(id, notstonks_photo)
 
