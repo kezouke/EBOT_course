@@ -7,7 +7,7 @@ import telebot
 import os
 import time
 import schedule
-
+import logging
 
 def store(filename, data):
     with open(filename, 'wb') as f:
@@ -27,15 +27,15 @@ DATA_PATH = os.path.join(FOLDER, "users", "users.json")
 DATE_PATH = os.path.join(FOLDER, "users", "date_file.json")
 DATA = fetch(DATA_PATH)
 DATE = fetch(DATE_PATH)
-
+logger = logging.getLogger()
 
 # Сurrency search by specified filters
 def view(charcode, date_req):
     print(date_req)
-    
+
     if date_req in DATE:
         content = DATE[date_req]
-    
+
     else:
         url = r"http://www.cbr.ru/scripts/XML_daily.asp?"
         response = re.get(url, params={"date_req": date_req})
@@ -49,8 +49,22 @@ def view(charcode, date_req):
         if currency.text == charcode:
             return currency.parent.value.text
 
+class BlockedException(Exception):
+    pass
 
-ebot = telebot.TeleBot("TOKEN")
+class SendingFacade:
+    def __init__(self, telegram):
+        self.telegram = telegram
+
+    def send(*args, **kwargs):
+        try:
+            self.telegram.send_message(*args, **kwargs)
+        except telebot.apihelper.ApiException as e:
+            if hasattr(e, 'result') and hasattr(e.result, 'text') and "bot was blocked" in e.result.text:
+                raise BlockedException(*e.args)
+            raise
+
+ebot = telebot.TeleBot("1245576989:AAHF9AnQ_lHQ0LaGnTrYUSmpA29aQGGJLN8")
 
 
 # Send the description of the bot to the user
@@ -155,37 +169,48 @@ def data_message(message):
 def sendler():
     today = date_today()
     yesterday = (date.today() - timedelta(days=1)).strftime("%d/%m/%Y")
-    
+    usd_course = view('USD', date_today()).replace(',', '.')
+    eur_course = view('EUR', date_today()).replace(',', '.')
+
+    start_string = f"Доброе утро! Центральный банк Российской Федерации установил с {today} новые курсы иностранных валют. \n"
+    usd_string = f"На сегодня курс по USD составляет {usd_course} руб. \n"
+    eur_string = f"Курс по EUR - {eur_course} руб. \n"
+
+    facade = SendingFacade(ebot)
+
     for id in DATA:
-        charcode = DATA[id]        
+        charcode = DATA[id]
         today_course = float(view(charcode, today).replace(',', '.'))
         yesterday_course = float(view(charcode, yesterday).replace(',', '.'))
 
-        if  today_course != yesterday_course: #if moex change course 
-            
-            start_string = f"Доброе утро! Центральный банк Российской Федерации установил с {today} новые курсы иностранных валют. \n"
-            usd_string = f"На сегодня курс по USD составляет {view('USD', date_today())} руб. \n"
-            eur_string = f"Курс по EUR - {view('EUR', date_today())} руб. \n"
-            
+        if  today_course != yesterday_course: #if moex change course
+
             if charcode == 'USD' or charcode == 'EUR':
                 end_string = ""
             else:
                 end_string = f"Выбранный вами курс по {charcode} составил {today_course} руб."
 
             send = start_string + usd_string + eur_string + end_string
-            ebot.send_message(id, send)
+
+            try:
+                facade.send(id, send)
+            except BlockedException:
+                DATA.pop(id)
+                logger.error(f"{e.args}")
+            except Exception as e:
+                logger.error(f"{e.args}")
 
             if today_course < yesterday_course:
                 with open(os.path.join(FOLDER, "stonks.jpg"), "rb") as stonks_photo:
                     ebot.send_photo(id, stonks_photo)
-                
+
             elif today_course > yesterday_course:
                 with open(os.path.join(FOLDER, "notstonks.jpg"), "rb") as notstonks_photo:
                     ebot.send_photo(id, notstonks_photo)
 
 
 
-schedule.every().day.at("10:30").do(sendler) 
+schedule.every().day.at("10:30").do(sendler)
 
 
 def send():
