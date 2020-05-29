@@ -27,6 +27,8 @@ DATA_PATH = os.path.join(FOLDER, "users", "users.json")
 DATE_PATH = os.path.join(FOLDER, "users", "date_file.json")
 DATA = fetch(DATA_PATH)
 DATE = fetch(DATE_PATH)
+STONKS = open(os.path.join(FOLDER, "photos", "stonks.jpg"), "rb")
+NOT_STONKS = open(os.path.join(FOLDER, "photos", "notstonks.jpg"), "rb")
 logger = logging.getLogger("message_logger")
 
 # Сurrency search by specified filters
@@ -194,19 +196,18 @@ def sendler():
 
             try:
                 facade.send(id, send)
-            except BlockedException as e:
+            except BlockedException:
                 DATA.pop(id)
-                logger.error(f"{e.args}")
+                logger.info(f"removed blocked user {id} from list!")
+                raise
             except Exception as e:
                 logger.error(f"{e.args}")
+            else:
+                if today_course < yesterday_course:
+                    ebot.send_photo(id, STONKS)
 
-            if today_course < yesterday_course:
-                with open(os.path.join(FOLDER, "stonks.jpg"), "rb") as stonks_photo:
-                    ebot.send_photo(id, stonks_photo)
-
-            elif today_course > yesterday_course:
-                with open(os.path.join(FOLDER, "notstonks.jpg"), "rb") as notstonks_photo:
-                    ebot.send_photo(id, notstonks_photo)
+                elif today_course > yesterday_course:
+                 ebot.send_photo(id, NOT_STONKS)
 
 
 
