@@ -56,7 +56,7 @@ class SendingFacade:
     def __init__(self, telegram):
         self.telegram = telegram
 
-    def send(*args, **kwargs):
+    def send(self, *args, **kwargs):
         try:
             self.telegram.send_message(*args, **kwargs)
         except telebot.apihelper.ApiException as e:
@@ -64,7 +64,7 @@ class SendingFacade:
                 raise BlockedException(*e.args)
             raise
 
-ebot = telebot.TeleBot("TOKEN")
+ebot = telebot.TeleBot("1245576989:AAHF9AnQ_lHQ0LaGnTrYUSmpA29aQGGJLN8")
 
 
 # Send the description of the bot to the user
@@ -194,7 +194,7 @@ def sendler():
 
             try:
                 facade.send(id, send)
-            except BlockedException:
+            except BlockedException as e:
                 DATA.pop(id)
                 logger.error(f"{e.args}")
             except Exception as e:
