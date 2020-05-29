@@ -27,7 +27,7 @@ DATA_PATH = os.path.join(FOLDER, "users", "users.json")
 DATE_PATH = os.path.join(FOLDER, "users", "date_file.json")
 DATA = fetch(DATA_PATH)
 DATE = fetch(DATE_PATH)
-logger = logging.getLogger()
+logger = logging.getLogger("message_logger")
 
 # Сurrency search by specified filters
 def view(charcode, date_req):
