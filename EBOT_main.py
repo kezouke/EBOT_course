@@ -27,8 +27,8 @@ DATA_PATH = os.path.join(FOLDER, "users", "users.json")
 DATE_PATH = os.path.join(FOLDER, "users", "date_file.json")
 DATA = fetch(DATA_PATH)
 DATE = fetch(DATE_PATH)
-STONKS = open(os.path.join(FOLDER, "photos", "stonks.jpg"), "rb")
-NOT_STONKS = open(os.path.join(FOLDER, "photos", "notstonks.jpg"), "rb")
+STONKS = (open(os.path.join(FOLDER, "photos", "stonks.jpg"), "rb")).read()
+NOT_STONKS = (open(os.path.join(FOLDER, "photos", "notstonks.jpg"), "rb")).read()
 logger = logging.getLogger("message_logger")
 
 # Сurrency search by specified filters
