@@ -37,7 +37,6 @@ def view(charcode, date_req):
 
     if date_req in DATE:
         content = DATE[date_req]
-
     else:
         url = r"http://www.cbr.ru/scripts/XML_daily.asp?"
         response = re.get(url, params={"date_req": date_req})
@@ -63,10 +62,10 @@ class SendingFacade:
             self.telegram.send_message(*args, **kwargs)
         except telebot.apihelper.ApiException as e:
             if hasattr(e, 'result') and hasattr(e.result, 'text') and "bot was blocked" in e.result.text:
-                raise BlockedException(*e.args)
+                raise BlockedException(e.args)
             raise
 
-ebot = telebot.TeleBot("TOKEN")
+ebot = telebot.TeleBot("1245576989:AAHF9AnQ_lHQ0LaGnTrYUSmpA29aQGGJLN8")
 
 
 # Send the description of the bot to the user
@@ -198,16 +197,15 @@ def sendler():
                 facade.send(id, send)
             except BlockedException:
                 DATA.pop(id)
-                logger.info(f"removed blocked user {id} from list!")
-                raise
+                store(DATA_PATH, DATA)
+                logger.error(f"removed blocked user {id} from list!")
             except Exception as e:
                 logger.error(f"{e.args}")
             else:
                 if today_course < yesterday_course:
                     ebot.send_photo(id, STONKS)
-
                 elif today_course > yesterday_course:
-                 ebot.send_photo(id, NOT_STONKS)
+                    ebot.send_photo(id, NOT_STONKS)
 
 
 
@@ -223,4 +221,4 @@ def send():
 t = Thread(target=send, name="Scheduling", daemon=True)
 t.start()
 
-ebot.polling()
+ebot.polling(none_stop=True, interval=0, block=True)
