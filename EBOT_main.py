@@ -221,4 +221,4 @@ def send():
 t = Thread(target=send, name="Scheduling", daemon=True)
 t.start()
 
-ebot.polling(none_stop=True, interval=0, block=True)
+ebot.polling(none_stop=True)
