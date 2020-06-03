@@ -27,8 +27,6 @@ DATA_PATH = os.path.join(FOLDER, "users", "users.json")
 DATE_PATH = os.path.join(FOLDER, "users", "date_file.json")
 DATA = fetch(DATA_PATH)
 DATE = fetch(DATE_PATH)
-STONKS = (open(os.path.join(FOLDER, "photos", "stonks.jpg"), "rb")).read()
-NOT_STONKS = (open(os.path.join(FOLDER, "photos", "notstonks.jpg"), "rb")).read()
 logger = logging.getLogger("message_logger")
 
 # Сurrency search by specified filters
@@ -179,6 +177,9 @@ def sendler():
 
     facade = SendingFacade(ebot)
 
+    stonks_file = open(os.path.join(FOLDER, "photos", "stonks.jpg"), "rb")
+    notstonks_file = open(os.path.join(FOLDER, "photos", "notstonks.jpg"), "rb")
+
     blocked_users = []
     for id in DATA:
         charcode = DATA[id]
@@ -203,13 +204,16 @@ def sendler():
                 logger.error(f"{e.args}")
             else:
                 if today_course < yesterday_course:
-                    ebot.send_photo(id, STONKS)
+                    ebot.send_photo(id, stonks_file.read())
                 elif today_course > yesterday_course:
-                    ebot.send_photo(id, NOT_STONKS)
+                    ebot.send_photo(id, notstonks_file.read())
 
     for id in blocked_users:
         DATA.pop(id)
     store(DATA_PATH, DATA)
+
+    stonks_file.close()
+    notstonks_file.close()
 
 schedule.every().day.at("10:30").do(sendler)
 
