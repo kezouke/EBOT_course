@@ -63,7 +63,7 @@ class SendingFacade:
                 raise BlockedException(e.args)
             raise
 
-ebot = telebot.TeleBot("TOKEN")
+ebot = telebot.TeleBot("1245576989:AAHF9AnQ_lHQ0LaGnTrYUSmpA29aQGGJLN8")
 
 
 # Send the description of the bot to the user
@@ -204,9 +204,9 @@ def sendler():
                 logger.error(f"{e.args}")
             else:
                 if today_course < yesterday_course:
-                    ebot.send_photo(id, stonks_file.read())
+                    ebot.send_photo(id, stonks_file)
                 elif today_course > yesterday_course:
-                    ebot.send_photo(id, notstonks_file.read())
+                    ebot.send_photo(id, notstonks_file)
 
     for id in blocked_users:
         DATA.pop(id)
