@@ -63,7 +63,7 @@ class SendingFacade:
                 raise BlockedException(e.args)
             raise
 
-ebot = telebot.TeleBot("1245576989:AAHF9AnQ_lHQ0LaGnTrYUSmpA29aQGGJLN8")
+ebot = telebot.TeleBot("TELEBOT TOKEN")
 
 
 # Send the description of the bot to the user
