@@ -163,8 +163,6 @@ def data_message(message):
         ebot.reply_to(message, "Вы должны написать /start, для того, чтобы использовать эту функцию")
 
 
-
-
 def sendler():
     today = date_today()
     yesterday = (date.today() - timedelta(days=1)).strftime("%d/%m/%Y")
@@ -224,4 +222,5 @@ def send():
 t = Thread(target=send, name="Scheduling", daemon=True)
 t.start()
 
-ebot.polling(none_stop=True)
+# ebot.polling(none_stop=True)
+ebot.polling()
