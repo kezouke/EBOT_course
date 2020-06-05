@@ -177,9 +177,6 @@ def sendler():
 
     facade = SendingFacade(ebot)
 
-    stonks_file = open(os.path.join(FOLDER, "photos", "stonks.jpg"), "rb")
-    notstonks_file = open(os.path.join(FOLDER, "photos", "notstonks.jpg"), "rb")
-
     blocked_users = []
     for id in DATA:
         charcode = DATA[id]
@@ -204,16 +201,16 @@ def sendler():
                 logger.error(f"{e.args}")
             else:
                 if today_course < yesterday_course:
-                    ebot.send_photo(id, stonks_file)
+                    with open(os.path.join(FOLDER, "photos", "stonks.jpg"), "rb") as stonks_file:
+                        ebot.send_photo(id, stonks_file)
                 elif today_course > yesterday_course:
-                    ebot.send_photo(id, notstonks_file)
+                    with open(os.path.join(FOLDER, "photos", "notstonks.jpg"), "rb") as notstonks_file:
+                        ebot.send_photo(id, notstonks_file)
 
     for id in blocked_users:
         DATA.pop(id)
     store(DATA_PATH, DATA)
 
-    stonks_file.close()
-    notstonks_file.close()
 
 schedule.every().day.at("10:30").do(sendler)
 
