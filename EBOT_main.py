@@ -63,7 +63,7 @@ class SendingFacade:
                 raise BlockedException(e.args)
             raise
 
-ebot = telebot.TeleBot("1105237915:AAEsDuC4ZtbtHhGgItSFRVTlal1eP-SiJK0")
+ebot = telebot.TeleBot("1245576989:AAHF9AnQ_lHQ0LaGnTrYUSmpA29aQGGJLN8")
 
 
 # Send the description of the bot to the user
@@ -222,5 +222,4 @@ def send():
 t = Thread(target=send, name="Scheduling", daemon=True)
 t.start()
 
-# ebot.polling(none_stop=True)
-ebot.polling()
+ebot.polling(none_stop=True)
